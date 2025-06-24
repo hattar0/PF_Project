@@ -53,8 +53,6 @@ void registerParticipant(fstream &participant){
     }
     // cout << num;
 
-
-
     create(participant, "Enter name: ", 24);
     create(participant, "Enter Roll number: ", 31);
     create(participant, "Enter department: ", 30);
