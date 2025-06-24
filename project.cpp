@@ -31,19 +31,27 @@ void registerParticipant(fstream &participant){
     
     char spaces[] = "                              ";
     
-    // char num[4];
+    int num=0;
+    char c;
 
-    // if(participant.peek() == ifstream::traits_type::eof()){
-    //     participant.clear();
-    //     strcpy(num, "001");
-    // }else{
-    //     cout << "\nGenerating ID: ";
-    //     participant.seekg(-3, ios::end);
-    //     participant.read(num, 3);
-    //     num[3] = '\0';
-    // }
+    
+    if(participant.peek() == ifstream::traits_type::eof()){
+        num = -1;
+        participant.clear();
+    }else{
+        participant.seekg(-5, ios::end);
+
+        for(int i=0; i<3; i++){
+            participant.get(c);
+            num *= 10;
+            num += c - 48;
+        }
+
+        cout << num;
+        participant.seekg(0);
+        participant.clear();
+    }
     // cout << num;
-
 
 
 
@@ -53,23 +61,23 @@ void registerParticipant(fstream &participant){
     create(participant, "Enter contact number: ", 27);
     create(participant, "Enter event name: ", 25);
     create(participant, "Enter the time slot (Example: 02:00 - 04:00) ", 29);
-    
-    char num[4];
 
-    
-    if(participant.peek() == ifstream::traits_type::eof()){
-        strcpy(num, "001");
+    if(num == -1){
+        participant << "TECHFEST-2025-";
+        participant << "001";
     }else{
-        cout << "\nGenerating ID: ";
-        participant.seekg(-3, ios::end);
-        participant.read(num, 3);
-        num[3] = '\0';
+        participant << "TECHFEST-2025-";
+        ++num;
+        if(num < 10){
+            participant << 0 << 0 << num;
+        }else if(num < 100 && num >= 10){
+            participant << 0 << num;
+        }else if(num >= 100){
+            participant << num;
+        }
     }
-    cout << num;
-    int number = int(num);
-
-    cout << "number" << number;
-
+    
+   
     participant << endl;
 
 }
