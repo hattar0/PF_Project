@@ -51,13 +51,12 @@ void registerParticipant(fstream &participant){
         participant.seekg(0);
         participant.clear();
     }
-    // cout << num;
 
     create(participant, "Enter name: ", 24);
-    create(participant, "Enter Roll number: ", 31);
     create(participant, "Enter department: ", 30);
     create(participant, "Enter contact number: ", 27);
     create(participant, "Enter event name: ", 25);
+    create(participant, "Enter Roll number: ", 31);
     create(participant, "Enter the time slot (Example: 02:00 - 04:00) ", 29);
 
     if(num == -1){
@@ -80,13 +79,33 @@ void registerParticipant(fstream &participant){
 
 }
 
+void submitScores(int (*scores)[30], fstream &participant){
+
+    participant.seekg(0);
+    participant.clear();
+
+    char compitition1[20]={'\0'};
+    char compitition2[20]={'\0'};
+    cout << "Which compititon do you want to add scores for?: ";
+    cin >> compitition1 >> compitition2;
+
+    char buffer[50];
+
+    while(participant >> buffer){
+        if(strcmp(buffer, compitition1) == 0){
+            participant >> buffer >> buffer;
+            cout << buffer << endl;
+        }
+    }
+
+}
+
+
 
 int main(){
 
     fstream events("events.txt",ios::in | ios::out | ios::app );
-    // ifstream eventsIn("events.txt");
     fstream participants("participants.txt", ios::in| ios::out |  ios::app);
-    // ifstream participantsIn("participants.txt");
 
     char spaces[] = "                    ";
 
@@ -97,14 +116,16 @@ int main(){
 
     if(participants.peek() == ifstream::traits_type::eof()){
         participants.clear();
-        participants << "Name" << spaces <<"Roll Number"<< spaces << "Department" << spaces << "Contact" << spaces << "Event" << spaces <<  "Time Slot" << spaces <<"Participation ID" << endl;
+        participants << "Name"<< spaces << "Department" << spaces << "Contact" << spaces << "Event"  << spaces <<"Roll Number" << spaces <<  "Time Slot" << spaces <<"Participation ID" << endl;
     }
 
 
     // createEvent(events);
-    registerParticipant(participants);
+    // registerParticipant(participants);
 
+    int scores[10][30];
 
+    submitScores(scores, participants);
 
 
     return 0;
